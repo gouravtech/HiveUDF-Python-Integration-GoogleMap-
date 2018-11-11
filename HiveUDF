@@ -1,0 +1,17 @@
+import sys
+import datetime
+import googlemaps
+from datetime import datetime
+now = datetime.now()
+gmaps = googlemaps.Client(key='####################')
+for line in sys.stdin:
+line = line.strip()
+partnercode , latitude, longitude = line.split('\t')
+new_lat = latitude
+new_long = longitude
+directions_result = gmaps.directions("28.4593, 77.0724", '"%s, %s"' % (new_lat,new_long),mode="driving",avoid="ferries",departure_time=now)
+result = str(directions_result[0]['legs'][0]['distance']['text'])
+durations = str(directions_result[0]['legs'][0]['duration']['text'])
+result_new = float(result[:-2])
+if result_new < 20:
+print '\t'.join([partnercode,str(result),durations])
